@@ -1,0 +1,97 @@
+/* Container utama untuk judul */
+.title-card {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.title-card h2 {
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+/* Flexbox untuk daftar kartu */
+.card-list {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth; /* Animasi scroll */
+    gap: 16px; /* Jarak antar-card */
+}
+
+
+.card-list img {
+    width: 240px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.card-list .card {
+    position: relative;
+}
+/* Scrollbar untuk browser Webkit (Chrome, Edge, dll.) */
+.card-list::-webkit-scrollbar {
+    height: 8px;
+    background-color: transparent;
+    display: none;
+}
+
+.card-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.card-list::-webkit-scrollbar-track {
+    background: transparent;
+    display: none;
+}
+
+/* Style untuk kartu individual */
+.card {
+    flex: 0 0 auto; /* Mencegah kartu menyusut */
+    width: 240px; /* Lebar tetap */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%; /* Gambar memenuhi kartu */
+    height: 360px; /* Tinggi gambar tetap untuk konsistensi */
+    object-fit: cover; /* Menjaga proporsi gambar */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.card-list p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.card p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0; /* Make it span the full width */
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+/* Efek hover */
+.card:hover {
+    transform: scale(1.05); /* Zoom sedikit */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

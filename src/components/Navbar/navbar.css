@@ -1,0 +1,132 @@
+/* Default styles for larger screens */
+.navbar {
+    width: 100%;
+    padding: 20px 6%;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    font-size: 14px;
+    color: #ffffff;
+    background-image:
+        linear-gradient(100deg, rgb(0, 0, 0, 0.07)) 100%,
+        transparent;
+    z-index: 1;
+    cursor: pointer;
+}
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+.navbar-left img {
+    width: 90px;
+}
+.navbar-left ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+.navbar-left ul li {
+    cursor: pointer;
+}
+.navbar-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.navbar-right .icons {
+    display: flex;
+    align-items: center;
+    width: 20px;
+    display: inline;
+    cursor: pointer;
+}
+.navbar-right .profile {
+    border-radius: 4px;
+    width: 35px;
+}
+.navbar-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.navbar .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: max-content;
+    background: #191919;
+    padding: 18px 22px;
+    border-radius: 2px;
+    text-decoration: underline;
+    z-index: 1;
+    display: none;
+}
+.navbar .dropdown p {
+    font-size: 13px;
+    cursor: pointer;
+}
+.navbar-profile:hover .dropdown {
+    display: block;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1024px) {
+    .navbar-left {
+        gap: 30px;
+    }
+    .navbar-left img {
+        width: 80px;
+    }
+    .navbar-left ul {
+        gap: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 20px 3%;
+        font-size: 12px;
+    }
+    .navbar-left {
+        gap: 20px;
+    }
+    .navbar-left ul {
+        display: none; /* Hide menu on smaller screens */
+        flex-direction: column;
+        position: absolute;
+        background-color: #000;
+        top: 60px;
+        right: 0;
+        padding: 20px;
+        border-radius: 5px;
+    }
+    .navbar-left ul li {
+        padding: 10px 0;
+        cursor: pointer;
+    }
+    .navbar-right {
+        gap: 15px;
+    }
+    .navbar-right .profile {
+        width: 30px;
+    }
+    .navbar-profile:hover .dropdown {
+        display: none; /* Hide dropdown on smaller screens */
+    }
+    .navbar .hamburger {
+        display: block;
+        cursor: pointer;
+        font-size: 30px;
+        color: #e5e5e5;
+    }
+}
+
+/* When the hamburger is clicked */
+@media screen and (max-width: 768px) {
+    .navbar-left ul.show {
+        display: flex;
+    }
+}
