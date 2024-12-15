@@ -1,4 +1,4 @@
-# NEFlix Clone
+# Netflix Clone
 
 ## Deskripsi singkat
 Proyek ini merupakan clone dari Netflix menggunakan React dan Tailwind CSS.
@@ -47,7 +47,7 @@ Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti [instruksi berikut]
 Proyek ini dilisensikan berdasarkan [MIT License](https://github.com/salak96/netflix_clone_useContext.git/blob/main/LICENSE).
 
 ## Kontak
-Jika Anda memiliki pertanyaan atau ingin berkontribusi, silakan hubungi saya di [email](mailto:7W3j9@example.com).
+Jika Anda memiliki pertanyaan atau ingin berkontribusi, silakan hubungi saya di [email](mailto:lambangsasangka@gmail.com).
 
 ## Terima kasih
 Terima kasih atas kontribusi Anda!
