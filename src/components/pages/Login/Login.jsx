@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import './login.css';
 import logo from '../../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
 const Login = () => {
+    const { login } = useAuth();
     const [signIn, setSignIn] = useState('Sign In');
     const [yourName, setYourName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const navigate = useNavigate(); // Hook untuk navigasi
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,33 +20,47 @@ const Login = () => {
                 alert('Please fill in all fields to sign up.');
                 return;
             }
-            // Simpan data pengguna ke Local Storage
-            localStorage.setItem('user', JSON.stringify({ name: yourName, email }));
+            // Save user data including the password to localStorage
+            const userData = { name: yourName, email, password };
+            localStorage.setItem('user', JSON.stringify(userData)); // Save to localStorage
+            login(userData); // Set user in context
             alert('Sign Up successful! You can now Sign In.');
             setSignIn('Sign In');
         } else {
-            // Validasi untuk Sign In
             const savedUser = JSON.parse(localStorage.getItem('user'));
-            if (savedUser && savedUser.email === email && password) {
-                navigate('/home'); // Navigasi ke /home setelah berhasil login
-            } else {
-                alert('Invalid email or password.');
+            if (savedUser && savedUser.email === email && savedUser.password === password) {
+                login(savedUser); // Set user in context
+                navigate('/home'); // Redirect to home page
             }
         }
-    
     };
 
     return (
         <div className='login'>
-            <img className='login-logo' src={logo} alt='Netflix' />
+            <img className='login-logo' src={logo} alt='Logo' />
             <div className='login-form'>
                 <h1>{signIn}</h1>
                 <form onSubmit={handleSubmit}>
                     {signIn === 'Sign Up' && (
-                        <input type='text' placeholder='Your Name' value={yourName} onChange={(e) => setYourName(e.target.value)} />
+                        <input
+                            type='text'
+                            placeholder='Your Name'
+                            value={yourName}
+                            onChange={(e) => setYourName(e.target.value)}
+                        />
                     )}
-                    <input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input
+                        type='email'
+                        placeholder='Email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        type='password'
+                        placeholder='Password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                     <button type='submit'>{signIn}</button>
                     <div className='form-help'>
                         <div className='remember'>
@@ -61,7 +76,7 @@ const Login = () => {
                 <div className='form-switch'>
                     {signIn === 'Sign In' ? (
                         <p>
-                            New to Netflix? <span onClick={() => setSignIn('Sign Up')}>Sign up now</span>
+                            New to the platform? <span onClick={() => setSignIn('Sign Up')}>Sign up now</span>
                         </p>
                     ) : (
                         <p>

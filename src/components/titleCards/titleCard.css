@@ -18,7 +18,6 @@
     gap: 16px; /* Jarak antar-card */
 }
 
-
 .card-list img {
     width: 240px;
     border-radius: 4px;
@@ -86,10 +85,10 @@
     color: #fff;
     font-size: 14px;
     font-weight: 600;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-  }
+}
 /* Efek hover */
 .card:hover {
     transform: scale(1.05); /* Zoom sedikit */
