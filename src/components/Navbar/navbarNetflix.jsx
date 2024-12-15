@@ -7,7 +7,8 @@ import profile_img from '../../assets/profile_img.png';
 import caret_icon from '../../assets/caret_icon.svg';
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+
+const Navbar = (favorite) => {
     const userLogin = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate(); // Hook untuk navigasi
 

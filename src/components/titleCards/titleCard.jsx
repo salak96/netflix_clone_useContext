@@ -62,8 +62,12 @@ const TitleCard = ({ title, category, endpoint }) => {
         const isFavorite = favorites.some((fav) => fav.id === movie.id);
         if (isFavorite) {
             removeFavorite(movie.id);
+            const updatedFavorites = favorites.filter((fav) => fav.id !== movie.id);
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
         } else {
             addFavorite(movie);
+            const updatedFavorites = [...favorites, movie];
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
         }
     };
 
@@ -82,22 +86,24 @@ const TitleCard = ({ title, category, endpoint }) => {
     return (
         <div className="title-card">
             <h2>
-                {title ? title : 'Popular Movies'} {category ? category : 'Movies'}
+                {title || 'Popular Movies'} {category || 'Movies'}
             </h2>
             <div className="card-list" ref={cardsRef}>
                 {movies.map((movie) => {
                     const isFavorite = favorites.some((fav) => fav.id === movie.id);
 
                     return (
-                        <div className="card" key={movie.id}>
+                        <div className="card" key={movie.id} onClick={() => navigate(`/detail`, { state: { movie } })}>
                             <img
                                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                 alt={movie.title}
                             />
-                            <p className="title">{movie.title}</p>
                             <button
-                                className="btn-favorite"
-                                onClick={() => handleFavorite(movie)}
+                                className={`btn-favorite ${isFavorite ? 'active' : ''}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleFavorite(movie);
+                                }}
                             >
                                 {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                             </button>
