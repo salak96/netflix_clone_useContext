@@ -15,18 +15,19 @@ const Navbar = () => {
         localStorage.removeItem('user'); // Hapus data pengguna dari localStorage
         navigate('/login'); // Arahkan ke halaman login
     };
+    const favorites = () => {
+        navigate('/favorites');
+    };
 
     return (
         <div className='navbar'>
             <div className='navbar-left'>
                 <img src={logo} alt='Netflix' className='navbar-logo' />
                 <ul>
-                    <li>Home</li>
-                    <li>TV Shows</li>
-                    <li>Movies</li>
-                    <li>New and Popular</li>
-                    <li>My List</li>
-                    <li>Browse by Language</li>
+                    <li><p onClick={() => navigate('/home')}>Home</p></li>
+                    <li>
+                    <p onClick={favorites}>Favorites</p>
+                    </li>
                 </ul>
             </div>
             <div className='navbar-right'>

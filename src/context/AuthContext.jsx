@@ -1,20 +1,19 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Creating the Authentication Context
-const AuthContext = createContext();
+const AuthContext = createContext(); // Membuat context
 
-// Custom hook to access the AuthContext
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext); // Hook untuk mengakses context
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         if (storedUser) {
             setUser(storedUser);
+            setFavorites(storedFavorites);
         }
     }, []);
 
@@ -22,11 +21,14 @@ export const AuthProvider = ({ children }) => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         if (storedUser && storedUser.email === email && storedUser.password === password) {
             setUser(storedUser);
-        } 
+        } else {
+            alert('Invalid email or password');
+        }
     };
 
     const logout = () => {
         setUser(null);
+        setFavorites([]);
         localStorage.removeItem('user');
     };
 
@@ -36,8 +38,32 @@ export const AuthProvider = ({ children }) => {
         setUser(newUser);
     };
 
+    const addFavorite = (movie) => {
+        if (!favorites.some((fav) => fav.id === movie.id)) {
+            const updatedFavorites = [...favorites, movie];
+            setFavorites(updatedFavorites);
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+        }
+    };
+
+    const removeFavorite = (movieId) => {
+        const updatedFavorites = favorites.filter((fav) => fav.id !== movieId);
+        setFavorites(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, logout, signUp }}>
+        <AuthContext.Provider
+            value={{
+                user,
+                favorites,
+                login,
+                logout,
+                signUp,
+                addFavorite,
+                removeFavorite,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );

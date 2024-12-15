@@ -1,8 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './titleCard.css';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const TitleCard = ({ title, category, endpoint }) => {
     const cardsRef = useRef();
+    const { user, addFavorite, removeFavorite, favorites } = useAuth();
+    const navigate = useNavigate();
+
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const handleWheel = (event) => {
         if (cardsRef.current) {
@@ -22,10 +30,6 @@ const TitleCard = ({ title, category, endpoint }) => {
             }
         };
     }, []);
-
-    const [movies, setMovies] = useState([]); // State for movie data
-    const [loading, setLoading] = useState(true); // State for loading
-    const [error, setError] = useState(null); // State for error handling
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -47,32 +51,59 @@ const TitleCard = ({ title, category, endpoint }) => {
         };
 
         fetchMovies();
-    }, []);
+    }, [endpoint]);
+
+    const handleFavorite = (movie) => {
+        if (!user) {
+            alert('You need to be logged in to add favorites!');
+            return;
+        }
+
+        const isFavorite = favorites.some((fav) => fav.id === movie.id);
+        if (isFavorite) {
+            removeFavorite(movie.id);
+        } else {
+            addFavorite(movie);
+        }
+    };
 
     if (loading) {
-        return <div className='text-center'>Loading...</div>;
+        return <div className="text-center">Loading...</div>;
     }
 
     if (error) {
         return (
-            <div className='text-center text-red-500'>
+            <div className="text-center text-red-500">
                 <p>Error: {error}</p>
             </div>
         );
     }
 
     return (
-        <div className='title-card'>
+        <div className="title-card">
             <h2>
                 {title ? title : 'Popular Movies'} {category ? category : 'Movies'}
             </h2>
-            <div className='card-list' ref={cardsRef}>
-                {movies.map((movie) => (
-                    <div className='card' key={movie.id}>
-                        <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-                        <p className='title'>{movie.title}</p>
-                    </div>
-                ))}
+            <div className="card-list" ref={cardsRef}>
+                {movies.map((movie) => {
+                    const isFavorite = favorites.some((fav) => fav.id === movie.id);
+
+                    return (
+                        <div className="card" key={movie.id}>
+                            <img
+                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                alt={movie.title}
+                            />
+                            <p className="title">{movie.title}</p>
+                            <button
+                                className="btn-favorite"
+                                onClick={() => handleFavorite(movie)}
+                            >
+                                {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                            </button>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
